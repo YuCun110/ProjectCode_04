@@ -57,4 +57,58 @@ package object bean {
        url:String,
        clickCount: Long,
        WindowEndTime: Long)
+
+  /**
+   * 市场推广，用户行为数据
+   * @param userId
+   * @param behavior
+   * @param channel
+   * @param timestamp
+   */
+  case class MarketingUserBehavior(
+       userId: Long,
+       behavior: String,
+       channel: String,
+       timestamp: Long)
+
+  /**
+   * 广告数据
+   * @param userId
+   * @param adId
+   * @param province
+   * @param city
+   * @param timestamp
+   */
+  case class AdClickLog(
+       userId: Long,
+       adId: Long,
+       province: String,
+       city: String,
+       timestamp: Long)
+
+  /**
+   * 按照省份统计广告的点击量数据
+   * @param adid
+   * @param province
+   * @param count
+   * @param windowEnd
+   */
+  case class CountByProvince(
+      adid: Long,
+      province: String,
+      count: Long,
+      windowEnd: Long)
+
+  /**
+   * 用户登录数据
+   * @param userId
+   * @param ip
+   * @param eventType
+   * @param eventTime
+   */
+  case class LoginEvent(
+     userId: Long,
+     ip: String,
+     eventType: String,
+     eventTime: Long)
 }

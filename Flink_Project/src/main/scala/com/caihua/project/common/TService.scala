@@ -2,7 +2,7 @@ package com.caihua.project.common
 
 import java.text.SimpleDateFormat
 
-import com.caihua.project.bean.{ServiceLog, UserBehavior}
+import com.caihua.project.bean.{AdClickLog, LoginEvent, ServiceLog, UserBehavior}
 import com.caihua.project.dao.HotItemAnalysesDao
 import org.apache.flink.streaming.api.scala._
 
@@ -68,5 +68,47 @@ trait TService {
     })
     //3.返回数据
     serviceLogDS
+  }
+
+  /**
+   * 获取广告点击日志数据
+   */
+  def getAdClickLog() ={
+    //1.从本地文件读取数据
+    val dataDS: DataStream[String] = getDao().readTextFile("input/AdClickLog.csv")
+
+    //2.变换数据类型：将数据拆分，封装为样例类对象
+    val resultDS: DataStream[AdClickLog] = dataDS.map(line => {
+      val arr: Array[String] = line.split(",")
+      AdClickLog(
+        arr(0).toLong,
+        arr(1).toLong,
+        arr(2),
+        arr(3),
+        arr(4).toLong
+      )
+    })
+
+    //3.返回数据
+    resultDS
+  }
+
+  def getLogEvent() ={
+    //1.获取本地文件数据
+    val dataDs: DataStream[String] = getDao().readTextFile("input/LoginLog.csv")
+
+    //2.变换数据结构：拆分数据，封装为样例类对象
+    val resultDS: DataStream[LoginEvent] = dataDs.map(line => {
+      val arr: Array[String] = line.split(",")
+      LoginEvent(
+        arr(0).toLong,
+        arr(1),
+        arr(2),
+        arr(3).toLong
+      )
+    })
+
+    //3.输出数据
+    resultDS
   }
 }
