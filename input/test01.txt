@@ -1,0 +1,4 @@
+Spark Flink Hive Hbase
+kafka zookeeper MySQL Phoenix
+Hive Flume Spark Spark
+Hadoop Canal Sqoop

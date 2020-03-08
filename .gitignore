@@ -1,0 +1,5 @@
+# Project exclude paths
+/Flink_Project/target/
+/Flink_Review/target/
+/FlinkDemo/target/
+/out/
