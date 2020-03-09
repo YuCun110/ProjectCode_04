@@ -2,7 +2,7 @@ package com.caihua.project.common
 
 import java.text.SimpleDateFormat
 
-import com.caihua.project.bean.{AdClickLog, LoginEvent, ServiceLog, UserBehavior}
+import com.caihua.project.bean.{AdClickLog, LoginEvent, OrderEvent, ReceiptEvent, ServiceLog, UserBehavior}
 import com.caihua.project.dao.HotItemAnalysesDao
 import org.apache.flink.streaming.api.scala._
 
@@ -109,6 +109,42 @@ trait TService {
     })
 
     //3.输出数据
+    resultDS
+  }
+
+  def getOrderEvent() ={
+    //1.获取本地文件数据
+    val dataDS: DataStream[String] = getDao().readTextFile("input/OrderLog.csv")
+
+    //2.变换数据结构，拆分数据，并封装为样例类对象
+    val resultDS: DataStream[OrderEvent] = dataDS.map(line => {
+      val arr: Array[String] = line.split(",")
+      OrderEvent(
+        arr(0).toLong,
+        arr(1),
+        arr(2),
+        arr(3).toLong
+      )
+    })
+
+    //3.返回
+    resultDS
+  }
+
+  def getReceiptEvent() ={
+    //1.获取本地文件数据
+    val dataDS: DataStream[String] = getDao().readTextFile("input/ReceiptLog.csv")
+
+    //2.变换数据结构，拆分数据，并封装为样例类对象
+    val resultDS: DataStream[ReceiptEvent] = dataDS.map(line => {
+      val arr: Array[String] = line.split(",")
+      ReceiptEvent(
+        arr(0),
+        arr(1),
+        arr(2).toLong)
+    })
+
+    //3.返回
     resultDS
   }
 }

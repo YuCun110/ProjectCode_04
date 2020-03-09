@@ -111,4 +111,31 @@ package object bean {
      ip: String,
      eventType: String,
      eventTime: Long)
+
+  /**
+   * 用户订单数据
+   * @param orderId
+   * @param eventType
+   * @param eventTime
+   */
+  case class OrderEvent(
+       orderId: Long,
+       eventType: String,
+       txId: String,
+       eventTime: Long)
+
+  /**
+   * 订单支付数据
+   * @param orderId
+   * @param orderTS
+   * @param payTS
+   */
+  case class OrderMergePay(
+        orderId:Long,
+        orderTS:Long,
+        payTS:Long)
+  case class ReceiptEvent(
+         txId: String,
+         payChannel: String,
+         eventTime: Long )
 }
